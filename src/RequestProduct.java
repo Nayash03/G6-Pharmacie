@@ -80,7 +80,7 @@ public class RequestProduct implements Stockable {
         } catch (IOException e) {}
 
         Map<String, Object> nouvelleCommande = new HashMap<>();
-        nouvelleCommande.put("date", new Date().toString());
+        
 
         List<Map<String, Object>> produits = new ArrayList<>();
         for (Map.Entry<Product, Integer> entry : produitsCommandes.entrySet()) {
