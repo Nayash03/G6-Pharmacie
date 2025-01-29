@@ -1,110 +1,61 @@
-import java.io.Serializable;
-import java.util.*;
+import com.google.gson.Gson;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 
-interface Stockable {}
+import com.google.gson.annotations.SerializedName;
+import java.util.List;
 
-abstract class Produit implements Stockable, Comparable<Produit>, Serializable {
-    protected String nom;
-    protected double prix;
-    protected int quantite;
-    protected Categorie categorie;
-
-    public Produit(String nom, double prix, int quantite, Categorie categorie) {
-        this.nom = nom;
-        this.prix = prix;
-        this.quantite = quantite;
-        this.categorie = categorie;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public int getQuantite() {
-        return quantite;
-    }
-
-    @Override
-    public int compareTo(Produit autre) {
-        return this.nom.compareToIgnoreCase(autre.nom);
-    }
-
-    public abstract void afficherInfos();
-}
-
-class Categorie {
-    private String nom;
-
-    public Categorie(String nom) {
-        this.nom = nom;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-}
-
-class Medicament extends Produit {
-    public Medicament(String nom, double prix, int quantite, Categorie categorie) {
-        super(nom, prix, quantite, categorie);
-    }
-
-    @Override
-    public void afficherInfos() {
-        System.out.println(nom + " - " + categorie.getNom() + " - " + prix + "€ - Stock: " + quantite);
-    }
-}
-
-abstract class Utilisateur {
-    protected String nom;
-
-    public Utilisateur(String nom) {
-        this.nom = nom;
-    }
-
-    public abstract void consulterStock(Stock stock);
-}
-
-class Pharmacien extends Utilisateur {
-    public Pharmacien(String nom) {
-        super(nom);
-    }
-
-    @Override
-    public void consulterStock(Stock stock) {
-        stock.afficherProduits();
-    }
-}
-
-class Stock {
-    private List<Produit> produits = new ArrayList<>();
-
-    public void ajouterProduit(Produit produit) {
-        produits.add(produit);
-    }
-
-    public void afficherProduits() {
-        Collections.sort(produits);
-        for (Produit p : produits) {
-            p.afficherInfos();
-        }
-    }
-
-    public Produit rechercherProduit(String nom) {
-        int index = Collections.binarySearch(produits, new Medicament(nom, 0, 0, new Categorie("Temp")));
-        return index >= 0 ? produits.get(index) : null;
-    }
-}
 
 public class Main {
     public static void main(String[] args) {
-        Categorie medicament = new Categorie("Médicament");
-        Stock stock = new Stock();
-        stock.ajouterProduit(new Medicament("Paracétamol", 3.99, 50, medicament));
-        stock.ajouterProduit(new Medicament("Ibuprofène", 4.99, 30, medicament));
-        Pharmacien pharmacien = new Pharmacien("Dr. Dupont");
-        pharmacien.consulterStock(stock);
-        Produit produitTrouve = stock.rechercherProduit("Ibuprofène");
-        if (produitTrouve != null) produitTrouve.afficherInfos();
+        try {
+            // Charger le fichier JSON
+            Gson gson = new Gson();
+            FileReader reader = new FileReader("pharmacie.json"); // Remplacez par le chemin de votre fichier JSON
+
+            // Convertir le JSON en objet Pharmacie
+            Pharmacie pharmacie = gson.fromJson(reader, Pharmacie.class);
+            reader.close();
+
+            // Afficher les produits triés par nom pour chaque catégorie
+            for (Categorie categorie : pharmacie.produits) {
+                System.out.println("Catégorie: " + categorie.categorie + " - " + categorie.sousCategorie);
+
+                // Trier les produits par nom
+                Collections.sort(categorie.produits, Comparator.comparing(Produit::getNom));
+
+                for (Produit produit : categorie.produits) {
+                    System.out.println("Produit: " + produit.nom + ", Prix: " + produit.prix + "€, Quantité en stock: " + produit.quantiteStock);
+                }
+
+                System.out.println("--------------------------------------------------");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+}
+
+
+class Pharmacie {
+    String nom;
+    String adresse;
+    List<Categorie> produits;
+}
+
+class Categorie {
+    String categorie;
+    String sousCategorie;
+    List<Produit> produits;
+}
+
+class Produit {
+    int id;
+    String nom;
+    double prix;
+    int quantiteStock;
+    String description;
 }
