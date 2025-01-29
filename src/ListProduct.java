@@ -1,11 +1,8 @@
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.io.*;
 import java.util.*;
 
-public class ListProduct implements Stockable {
+public class ListProduct implements Listable {
     private static final String FILE_PATH = "stocks_pharma.json";
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public static void main(String[] args) {
         ListProduct listProduct = new ListProduct();
@@ -18,12 +15,6 @@ public class ListProduct implements Stockable {
 
     // Implements the addProduct() method from Stockable interface
     @Override
-    public void addProduct() throws IOException {
-        // TODO: Add implementation for adding a product
-        throw new UnsupportedOperationException("Method not yet implemented");
-    }
-
-    // Removed @Override since listProducts() is not from the interface
     public void listProducts() throws IOException {
         Pharmacy pharmacie = FileHelper.lireFichier(FILE_PATH);
         if (pharmacie == null) {
