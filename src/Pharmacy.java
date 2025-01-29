@@ -6,6 +6,11 @@ public class Pharmacy {
     private String adresse;
     private List<ProductCategory> produits = new ArrayList<>();
 
-    public List<ProductCategory> getProduits() { return produits; }
-    public void setProduits(List<ProductCategory> produits) { this.produits = produits; }
+    public List<ProductCategory> getProduits() {
+        return produits;
+    }
+
+    public void setProduits(List<ProductCategory> produits) {
+        this.produits = produits;
+    }
 }

@@ -1,5 +1,6 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import java.io.*;
 import java.util.*;
 
@@ -48,7 +49,7 @@ public class AddProduct implements Stockable {
         }
 
         // Lecture du fichier JSON
-        Pharmacy pharmacie = lireFichier();
+        Pharmacy pharmacie = FileHelper.lireFichier(FILE_PATH);
         if (pharmacie == null) return;
 
         // Création du produit
@@ -65,16 +66,6 @@ public class AddProduct implements Stockable {
         // Écriture dans le fichier
         ecrireFichier(pharmacie);
         System.out.println("Produit ajouté avec succès !");
-    }
-
-    private Pharmacy lireFichier() {
-        try (Reader reader = new FileReader(FILE_PATH)) {
-            PharmacyWrapper wrapper = gson.fromJson(reader, PharmacyWrapper.class);
-            return wrapper != null ? wrapper.getPharmacie() : null;
-        } catch (IOException e) {
-            System.out.println("Erreur de lecture du fichier.");
-            return null;
-        }
     }
 
     private void ecrireFichier(Pharmacy pharmacie) {
