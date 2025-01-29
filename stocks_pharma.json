@@ -121,20 +121,6 @@
             "prix": 12.99,
             "quantiteStock": 120,
             "description": "Booste le système immunitaire et réduit la fatigue."
-          },
-          {
-            "id": 14,
-            "nom": "Vitamine D",
-            "prix": 8.49,
-            "quantiteStock": 90,
-            "description": "Améliore la santé des os et du système immunitaire."
-          },
-          {
-            "id": 15,
-            "nom": "Oméga-3",
-            "prix": 19.99,
-            "quantiteStock": 60,
-            "description": "Améliore la santé cardiovasculaire."
           }
         ]
       }
