@@ -10,7 +10,7 @@ public class DeleteProduct implements Stockable {
     public static void main(String[] args) {
         DeleteProduct deleteProduct = new DeleteProduct();
         try {
-            deleteProduct.deleteProduct(); // Ensure this is called instead of addProduct()
+            deleteProduct.deleteProduct(); 
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -22,15 +22,15 @@ public class DeleteProduct implements Stockable {
         System.out.print("ID du produit à supprimer : ");
         int productId = scanner.nextInt();
 
-        // Lecture du fichier JSON
+        
         Pharmacy pharmacie = lireFichier();
         if (pharmacie == null) return;
 
-        // Suppression du produit
+        
         boolean removed = supprimerProduit(pharmacie, productId);
         
         if (removed) {
-            // Écriture dans le fichier
+           
             ecrireFichier(pharmacie);
             System.out.println("Produit supprimé avec succès !");
         } else {
@@ -41,7 +41,11 @@ public class DeleteProduct implements Stockable {
     private Pharmacy lireFichier() {
         try (Reader reader = new FileReader(FILE_PATH)) {
             PharmacyWrapper wrapper = gson.fromJson(reader, PharmacyWrapper.class);
-            return wrapper != null ? wrapper.getPharmacie() : null;
+            if (wrapper != null) {
+                return wrapper.getPharmacie();
+            } else {
+                return null;
+            }
         } catch (IOException e) {
             System.out.println("Erreur de lecture du fichier.");
             return null;

@@ -114,15 +114,7 @@
       {
         "categorie": "Compléments alimentaires",
         "sousCategorie": "Vitamines",
-        "produits": [
-          {
-            "id": 13,
-            "nom": "Vitamine C",
-            "prix": 12.99,
-            "quantiteStock": 120,
-            "description": "Booste le système immunitaire et réduit la fatigue."
-          }
-        ]
+        "produits": []
       }
     ]
   }
