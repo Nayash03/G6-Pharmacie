@@ -11,7 +11,7 @@ public class Main {
             String answer = scanner.nextLine();
             switch (answer) {
                 case "1" , "add" , "ajout":
-                    System.out.println("ajout");
+                    AddProduct.init();
                     break;
 
                 case "2" , "command" , "commande" :
@@ -19,10 +19,7 @@ public class Main {
                     String answerScanner = scanner.nextLine();
                     switch (answerScanner) {
                         case "1" :
-                            List<Map<String, Object>> commandes = new ArrayList<>();
-//                            System.out.println("Liste des commandes");
-                            ReadRequest.lireCommandes();
-                            ReadRequest.afficherCommandes(commandes);
+                            ReadRequest.init();
                             break;
 
                         case "2" :
@@ -43,8 +40,7 @@ public class Main {
                     break;
 
                 case "3" , "list" , "liste" , "stock" :
-                    ;
-                    System.out.println("Liste des stocks");
+                    ListProduct.init();
                     break;
 
                 case "4" , "exit" , "out": System.out.println("Vous quittez l'application"); running = false; break;

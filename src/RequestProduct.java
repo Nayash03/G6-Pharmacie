@@ -23,7 +23,7 @@ public class RequestProduct implements Stockable {
     }
 
     public static boolean registerRequest(Map<String, Integer> produitsDemandes, String typeLivraison) {
-            // Charger les stocks depuis le fichier
+
             Pharmacy pharmacie = FileHelper.lireFichier(FILE_PATH);
             if (pharmacie == null) {
                 System.out.println("Erreur lors de la lecture des stocks.");
@@ -54,21 +54,14 @@ public class RequestProduct implements Stockable {
                 entry.getKey().setQuantiteStock(entry.getKey().getQuantiteStock() - entry.getValue());
             }
 
-            writeFile(pharmacie);
+
+            AddProduct.ecrireFichier(pharmacie);
             writeRequestFile(produitsValidés, typeLivraison);
             System.out.println("Commande enregistrée avec succès !");
             return true;
         }
 
-    public static void writeFile(Pharmacy pharmacie) {
-        try (Writer writer = new FileWriter(FILE_PATH)) {
-            PharmacyWrapper wrapper = new PharmacyWrapper();
-            wrapper.setPharmacie(pharmacie);
-            gson.toJson(wrapper, writer);
-        } catch (IOException e) {
-            System.out.println("Erreur d'écriture dans le fichier.");
-        }
-    }
+
 
     private static void writeRequestFile(Map<Product, Integer> produitsCommandes, String typeLivraison) {
         List<Map<String, Object>> commandes = new ArrayList<>();

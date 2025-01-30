@@ -10,25 +10,24 @@ public class ReadRequest {
     private static final String FILE_PATH = "commands.json";
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    public static void main(String[] args) {
-        List<Map<String, Object>> commandes = lireCommandes();
+    public static void init() {
+        List<Map<String, Object>> request = readRequest();
 
-        if (commandes != null) {
-            // Trier les commandes par date décroissante
-            commandes.sort((c1, c2) -> {
+        if (request != null) {
+            request.sort((c1, c2) -> {
                 String dateStr1 = (String) c1.get("date");
                 String dateStr2 = (String) c2.get("date");
 
                 return parseDate(dateStr2).compareTo(parseDate(dateStr1));
             });
 
-            afficherCommandes(commandes);
+            afficherCommandes(request);
         } else {
             System.out.println("Erreur lors de la lecture des commandes.");
         }
     }
 
-    public static List<Map<String, Object>> lireCommandes() {
+    public static List<Map<String, Object>> readRequest() {
 
         try (Reader reader = new FileReader(FILE_PATH)) {
             return gson.fromJson(reader, new TypeToken<List<Map<String, Object>>>() {}.getType());
