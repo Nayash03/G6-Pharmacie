@@ -7,7 +7,7 @@ public class Main {
         boolean running = true;
 
         while (running) {
-            System.out.println("Choisissez une option :\n1 - Ajouté un produit aux stocks\n2 - commande\n3 - Liste des stocks \n4 - Enlever un produit\n5 - Produit en faible stock\n6 - Exit");
+            System.out.println("Choisissez une option :\n1 - Ajouté un produit aux stocks\n2 - Commande\n3 - Liste des stocks \n4 - Enlever un produit\n5 - Produit en faible stock\n6 - Exit");
             String answer = scanner.nextLine();
             switch (answer) {
                 case "1" , "add" , "ajout":
