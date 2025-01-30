@@ -1,5 +1,3 @@
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.io.*;
 import java.util.*;
 
@@ -17,9 +15,8 @@ import java.util.*;
  * @author YourName
  * @version 1.0
  */
-public class ListProduct implements Stockable {
+public class ListProduct implements Listable {
     private static final String FILE_PATH = "stocks_pharma.json";
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     /**
      * Initializes the product listing process by creating an instance of {@code ListProduct}
@@ -34,16 +31,6 @@ public class ListProduct implements Stockable {
         }
     }
 
-    /**
-     * Adds a product to the stock (not yet implemented).
-     *
-     * @throws IOException If an I/O error occurs.
-     */
-    @Override
-    public void addProduct() throws IOException {
-        // TODO: Implement method for adding a product
-        throw new UnsupportedOperationException("Method not yet implemented");
-    }
 
     /**
      * Lists all available products in the pharmacy's inventory.
@@ -57,6 +44,7 @@ public class ListProduct implements Stockable {
      *
      * @throws IOException If an error occurs while reading the stock file.
      */
+    @Override
     public void listProducts() throws IOException {
         Pharmacy pharmacie = FileHelper.lireFichier(FILE_PATH);
         if (pharmacie == null) {

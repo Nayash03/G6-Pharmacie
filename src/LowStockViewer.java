@@ -12,7 +12,6 @@ public class LowStockViewer {
         viewer.displayLowStockProducts();
     }
 
-
     public void displayLowStockProducts() {
         Pharmacy pharmacie = lireFichier();
         if (pharmacie == null) return;

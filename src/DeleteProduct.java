@@ -63,7 +63,6 @@ public class DeleteProduct implements Stockable {
     }
 
     private boolean supprimerProduit(Pharmacy pharmacie, int productId) {
-
         for (int i = 0; i < pharmacie.getProduits().size(); i++) {
             ProductCategory categorie = pharmacie.getProduits().get(i);
 
