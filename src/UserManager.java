@@ -36,6 +36,42 @@ public class UserManager {
         return null;
     }
 
+    public static boolean canCurrentUserManageUsers() {
+        return currentUser != null && currentUser instanceof Admin;
+    }
+
+    public static List<User> getAllUsers() {
+        if (canCurrentUserManageUsers()) {
+            return new ArrayList<>(users);
+        }
+        return new ArrayList<>();
+    }
+
+    public static boolean deleteUser(String username) {
+        if (!canCurrentUserManageUsers()) {
+            return false;
+        }
+        User userToDelete = getUserByUsername(username);
+        if (userToDelete != null && !userToDelete.getRole().equals("Admin")) {
+            users.remove(userToDelete);
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean promoteToAdmin(String username) {
+        if (!canCurrentUserManageUsers()) {
+            return false;
+        }
+        User userToPromote = getUserByUsername(username);
+        if (userToPromote != null && userToPromote.getRole().equals("Employee")) {
+            int index = users.indexOf(userToPromote);
+            users.set(index, new Admin(userToPromote.getUsername(), userToPromote.getPassword()));
+            return true;
+        }
+        return false;
+    }
+
     private static User getUserByUsername(String username) {
         return users.stream()
                 .filter(u -> u.getUsername().equals(username))

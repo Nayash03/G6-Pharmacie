@@ -52,7 +52,12 @@ public class Main {
         boolean running = true;
 
         while (running) {
-            System.out.println("Choisissez une option :\n1 - Ajouter un produit aux stocks\n2 - Commande\n3 - Liste des stocks \n4 - Enlever un produit\n5 - Produit en faible stock\n6 - Rechercher un produit\n7 - Exit");
+            if (UserManager.canCurrentUserManageUsers()) {
+                System.out.println("Choisissez une option :\n1 - Ajouter un produit aux stocks\n2 - Commande\n3 - Liste des stocks \n4 - Enlever un produit\n5 - Produit en faible stock\n6 - Rechercher un produit\n7 - Gestion des utilisateurs\n8 - Exit");
+            } else {
+                System.out.println("Choisissez une option :\n1 - Ajouter un produit aux stocks\n2 - Commande\n3 - Liste des stocks \n4 - Enlever un produit\n5 - Produit en faible stock\n6 - Rechercher un produit\n7 - Exit");
+            }
+            
             String answer = scanner.nextLine();
             switch (answer) {
                 case "1" , "add" , "ajout":
@@ -100,9 +105,20 @@ public class Main {
                     SearchProduct.init();
                     break;
 
-                case "7" , "exit" , "out": 
-                    System.out.println("Vous quittez l'application"); 
-                    running = false; 
+                case "7":
+                    if (UserManager.canCurrentUserManageUsers()) {
+                        UserManagementMenu.init();
+                    } else {
+                        System.out.println("Vous quittez l'application");
+                        running = false;
+                    }
+                    break;
+
+                case "8":
+                    if (UserManager.canCurrentUserManageUsers()) {
+                        System.out.println("Vous quittez l'application");
+                        running = false;
+                    }
                     break;
 
             }
