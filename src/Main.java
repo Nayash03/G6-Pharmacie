@@ -7,7 +7,7 @@ public class Main {
         boolean running = true;
 
         while (running) {
-            System.out.println("Choisissez une option :\n1 - Ajouté un produit aux stocks\n2 - commande\n3 - Liste des stocks\n4 - Exit");
+            System.out.println("Choisissez une option :\n1 - Ajouté un produit aux stocks\n2 - commande\n3 - Liste des stocks \n4 - Enlever un produit\n5 - Produit en faible stock\n6 - Exit");
             String answer = scanner.nextLine();
             switch (answer) {
                 case "1" , "add" , "ajout":
@@ -43,7 +43,15 @@ public class Main {
                     ListProduct.init();
                     break;
 
-                case "4" , "exit" , "out": System.out.println("Vous quittez l'application"); running = false; break;
+                case "6" , "exit" , "out": System.out.println("Vous quittez l'application"); running = false; break;
+
+                case "4" , "remove":
+                    DeleteProduct.init();
+                    break;
+
+                case "5" , "low stock" :
+                    LowStockViewer.init();
+                    break;
 
             }
         }
