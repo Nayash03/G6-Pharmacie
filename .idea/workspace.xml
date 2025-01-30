@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8ebd10a-1c5c-4f01-8726-fa27e30b94f2" name="Changes" comment="new interface for listable">
-      <change afterPath="$PROJECT_DIR$/G6-Pharmacie.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DeleteProduct.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/LowStockViewer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SearchProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SearchProduct.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,8 +57,11 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.AddProduct.executor": "Run",
+    "Application.DeleteProduct.executor": "Run",
     "Application.ListProduct.executor": "Run",
+    "Application.LowStockViewer.executor": "Run",
     "Application.Main.executor": "Run",
+    "Application.SearchProduct.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
