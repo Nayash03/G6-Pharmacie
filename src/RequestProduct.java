@@ -12,7 +12,7 @@ public class RequestProduct implements Stockable {
         Map<String, Integer> commandeClient = new HashMap<>();
         commandeClient.put("Paracétamol", 30);
         commandeClient.put("Ibuprofène", 30);
-        enregistrerCommande(commandeClient);
+        enregistrerCommande(commandeClient, "standard");
     }
 
     @Override
@@ -21,7 +21,7 @@ public class RequestProduct implements Stockable {
         throw new UnsupportedOperationException("Method not yet implemented");
     }
 
-    public static boolean enregistrerCommande(Map<String, Integer> produitsDemandes) {
+    public static boolean enregistrerCommande(Map<String, Integer> produitsDemandes, String typeLivraison) {
             // Charger les stocks depuis le fichier
             Pharmacy pharmacie = FileHelper.lireFichier(FILE_PATH);
             if (pharmacie == null) {
@@ -54,7 +54,7 @@ public class RequestProduct implements Stockable {
             }
 
             ecrirFichier(pharmacie);
-            ecrireCommandeFichier(produitsValidés);
+            ecrireCommandeFichier(produitsValidés, typeLivraison);
             System.out.println("Commande enregistrée avec succès !");
             return true;
         }
@@ -69,7 +69,7 @@ public class RequestProduct implements Stockable {
         }
     }
 
-    private static void ecrireCommandeFichier(Map<Product, Integer> produitsCommandes) {
+    private static void ecrireCommandeFichier(Map<Product, Integer> produitsCommandes, String typeLivraison) {
         List<Map<String, Object>> commandes = new ArrayList<>();
 
         try (Reader reader = new FileReader("commands.json")) {
@@ -79,8 +79,11 @@ public class RequestProduct implements Stockable {
             }
         } catch (IOException e) {}
 
-        Map<String, Object> nouvelleCommande = new HashMap<>();
-        
+        Map<String, Object> nouvelleCommande = new LinkedHashMap<>();
+        nouvelleCommande.put("livraison", typeLivraison);
+
+
+
 
         List<Map<String, Object>> produits = new ArrayList<>();
         for (Map.Entry<Product, Integer> entry : produitsCommandes.entrySet()) {
@@ -91,7 +94,7 @@ public class RequestProduct implements Stockable {
         }
         nouvelleCommande.put("produits", produits);
 
-        commandes.add(nouvelleCommande);
+        commandes.add(0, nouvelleCommande);
 
         try (Writer writer = new FileWriter("commands.json")) {
             gson.toJson(commandes, writer);
