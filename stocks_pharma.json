@@ -8,13 +8,6 @@
         "sousCategorie": "Antibiotiques",
         "produits": [
           {
-            "id": 1,
-            "nom": "Amoxicilline",
-            "prix": 5.99,
-            "quantiteStock": 120,
-            "description": "Antibiotique à large spectre pour les infections bactériennes."
-          },
-          {
             "id": 2,
             "nom": "Azithromycine",
             "prix": 7.49,
