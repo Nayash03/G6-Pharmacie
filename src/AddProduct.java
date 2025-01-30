@@ -8,7 +8,7 @@ public class AddProduct implements Stockable {
     private static final String FILE_PATH = "stocks_pharma.json";
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    public static void main(String[] args) {
+    public static void init() {
         AddProduct addProduct = new AddProduct();
         try {
             addProduct.addProduct();
@@ -68,7 +68,7 @@ public class AddProduct implements Stockable {
         System.out.println("Produit ajouté avec succès !");
     }
 
-    private void ecrireFichier(Pharmacy pharmacie) {
+    public static void ecrireFichier(Pharmacy pharmacie) {
         try (Writer writer = new FileWriter(FILE_PATH)) {
             PharmacyWrapper wrapper = new PharmacyWrapper();
             wrapper.setPharmacie(pharmacie);
