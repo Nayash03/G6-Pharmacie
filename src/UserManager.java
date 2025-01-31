@@ -2,13 +2,24 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.io.FileWriter;
+import java.io.FileReader;
+import java.lang.reflect.Type;
+import java.util.HashMap;
 
 public class UserManager {
     private static List<User> users = new ArrayList<>();
     private static User currentUser;
+    private static final String USER_FILE = "users.json";
 
     static {
-        users.add(new Admin("admin", hashPassword("admin123")));
+        loadUsersFromFile();
+        if (users.isEmpty()) {
+            users.add(new Admin("admin", hashPassword("admin123")));
+            saveUsersToFile();
+        }
     }
 
     public static boolean register(String username, String password, String role) {
@@ -24,6 +35,7 @@ public class UserManager {
             newUser = new Employee(username, hashedPassword);
         }
         users.add(newUser);
+        saveUsersToFile();
         return true;
     }
 
@@ -54,6 +66,7 @@ public class UserManager {
         User userToDelete = getUserByUsername(username);
         if (userToDelete != null && !userToDelete.getRole().equals("Admin")) {
             users.remove(userToDelete);
+            saveUsersToFile();
             return true;
         }
         return false;
@@ -67,6 +80,7 @@ public class UserManager {
         if (userToPromote != null && userToPromote.getRole().equals("Employee")) {
             int index = users.indexOf(userToPromote);
             users.set(index, new Admin(userToPromote.getUsername(), userToPromote.getPassword()));
+            saveUsersToFile();
             return true;
         }
         return false;
@@ -92,6 +106,43 @@ public class UserManager {
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
             return password; 
+        }
+    }
+
+    private static void loadUsersFromFile() {
+        try (FileReader reader = new FileReader(USER_FILE)) {
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<HashMap<String, String>>>() {}.getType();
+            List<HashMap<String, String>> data = gson.fromJson(reader, listType);
+            if (data != null) {
+                for (HashMap<String, String> entry : data) {
+                    String username = entry.get("username");
+                    String password = entry.get("password");
+                    String role = entry.get("role");
+                    if ("admin".equalsIgnoreCase(role)) {
+                        users.add(new Admin(username, password));
+                    } else {
+                        users.add(new Employee(username, password));
+                    }
+                }
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    private static void saveUsersToFile() {
+        try (FileWriter writer = new FileWriter(USER_FILE)) {
+            Gson gson = new Gson();
+            List<HashMap<String, String>> data = new ArrayList<>();
+            for (User u : users) {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("username", u.getUsername());
+                map.put("password", u.getPassword());
+                map.put("role", u.getRole());
+                data.add(map);
+            }
+            gson.toJson(data, writer);
+        } catch (Exception e) {
         }
     }
 
