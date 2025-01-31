@@ -86,8 +86,13 @@ public class Main {
                             System.out.println("Quantité du produit");
                             String answerNumber = scanner.nextLine();
                             if (answerNumber.matches("\\d+")){
-                                requestClient.put(answerRequest,Integer.parseInt(answerNumber));
-                                RequestProduct.registerRequest(requestClient,"Standard");
+                                String answerType = "";
+                                while (!answerType.equals("standard") && !answerType.equals("express")) {
+                                    System.out.println("Mode standard ou express uniquement !");
+                                    answerType = scanner.nextLine();
+                                }
+                                requestClient.put(answerRequest, Integer.parseInt(answerNumber));
+                                RequestProduct.registerRequest(requestClient, answerType);
                             } else {
                                 System.out.println("Numéro invalide, procédure annulé");
                             }
