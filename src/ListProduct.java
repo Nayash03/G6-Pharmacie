@@ -12,7 +12,7 @@ import java.util.*;
  *   <li>Show product details including price, stock quantity, and category.</li>
  * </ul>
  *
- * @author YourName
+ * @author Shayan
  * @version 1.0
  */
 public class ListProduct implements Listable {

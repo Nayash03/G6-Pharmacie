@@ -14,29 +14,16 @@ import java.util.*;
  *   <li>Save order details in a JSON file.</li>
  * </ul>
  *
- * @author YourName
+ * @author Shayan
  * @version 1.0
  */
 public class RequestProduct implements Stockable {
     private static final String FILE_PATH = "stocks_pharma.json";
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    /**
-     * Main method to test the order registration process.
-     * It creates a sample order and registers it in the system.
-     *
-     * @param args Command-line arguments (not used).
-     */
-    public static void main(String[] args) {
-        Map<String, Integer> commandeClient = new HashMap<>();
-        commandeClient.put("Paracetamol", 30);
-        commandeClient.put("Ibuprofen", 30);
-        registerRequest(commandeClient, "standard");
-        registerRequest(commandeClient, "express");
-    }
 
     /**
-     * Adds a product to the stock (not yet implemented).
+     * Adds a product to the stock
      *
      * @throws IOException If an I/O error occurs.
      */
@@ -50,11 +37,11 @@ public class RequestProduct implements Stockable {
      * Registers a customer's order request by verifying product availability,
      * updating stock, and saving the request.
      *
-     * @param produitsDemandes A map containing product names as keys and requested quantities as values.
+     * @param requestedProduct A map containing product names as keys and requested quantities as values.
      * @param typeLivraison The type of delivery (e.g., "standard" or "express").
      * @return {@code true} if the order was successfully registered, {@code false} otherwise.
      */
-    public static boolean registerRequest(Map<String, Integer> produitsDemandes, String typeLivraison) {
+    public static boolean registerRequest(Map<String, Integer> requestedProduct, String typeLivraison) {
         // Read the pharmacy stock from a JSON file
         Pharmacy pharmacie = FileHelper.lireFichier(FILE_PATH);
         if (pharmacie == null) {
@@ -62,35 +49,35 @@ public class RequestProduct implements Stockable {
             return false;
         }
 
-        Map<Product, Integer> produitsValidés = new HashMap<>();
+        Map<Product, Integer> productValid = new HashMap<>();
 
         // Verify product availability
-        for (Map.Entry<String, Integer> entry : produitsDemandes.entrySet()) {
-            String nomProduit = entry.getKey();
-            int quantiteDemandée = entry.getValue();
+        for (Map.Entry<String, Integer> entry : requestedProduct.entrySet()) {
+            String nameProduct = entry.getKey();
+            int quantityRequested = entry.getValue();
 
-            Product produitTrouvé = pharmacie.getProduits().stream()
+            Product productFound = pharmacie.getProduits().stream()
                     .flatMap(pc -> pc.getProduits().stream())
-                    .filter(p -> p.getNom().equalsIgnoreCase(nomProduit))
+                    .filter(p -> p.getNom().equalsIgnoreCase(nameProduct))
                     .findFirst()
                     .orElse(null);
 
-            if (produitTrouvé == null || produitTrouvé.getQuantiteStock() < quantiteDemandée) {
-                System.out.println("Insufficient stock or product not found: " + nomProduit);
+            if (productFound == null || productFound.getQuantiteStock() < quantityRequested) {
+                System.out.println("Insufficient stock or product not found: " + nameProduct);
                 return false;
             }
 
-            produitsValidés.put(produitTrouvé, quantiteDemandée);
+            productValid.put(productFound, quantityRequested);
         }
 
         // Deduct the ordered quantity from the stock
-        for (Map.Entry<Product, Integer> entry : produitsValidés.entrySet()) {
+        for (Map.Entry<Product, Integer> entry : productValid.entrySet()) {
             entry.getKey().setQuantiteStock(entry.getKey().getQuantiteStock() - entry.getValue());
         }
 
         // Update stock file and save the order request
         AddProduct.ecrireFichier(pharmacie);
-        writeRequestFile(produitsValidés, typeLivraison);
+        writeRequestFile(productValid, typeLivraison);
         System.out.println("Order successfully registered!");
         return true;
     }
