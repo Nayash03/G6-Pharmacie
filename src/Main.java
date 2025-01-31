@@ -105,7 +105,7 @@ public class Main {
                     SearchProduct.init();
                     break;
 
-                case "7":
+                case "7", "Exit":
                     if (UserManager.canCurrentUserManageUsers()) {
                         UserManagementMenu.init();
                     } else {
@@ -114,7 +114,7 @@ public class Main {
                     }
                     break;
 
-                case "8":
+                case "8", "exit":
                     if (UserManager.canCurrentUserManageUsers()) {
                         System.out.println("Vous quittez l'application");
                         running = false;
