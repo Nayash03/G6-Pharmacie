@@ -4,10 +4,16 @@ import com.google.gson.GsonBuilder;
 import java.io.*;
 import java.util.*;
 
+/**
+ * The AddProduct class provides functionality to add a new product to the pharmacy stock.
+ */
 public class AddProduct implements Stockable {
     private static final String FILE_PATH = "stocks_pharma.json";
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
+    /**
+     * Initializes the AddProduct process by creating an instance and calling the addProduct method.
+     */
     public static void init() {
         AddProduct addProduct = new AddProduct();
         try {
@@ -17,11 +23,14 @@ public class AddProduct implements Stockable {
         }
     }
 
+    /**
+     * Prompts the user for product details and adds the product to the pharmacy stock.
+     * @throws IOException if an I/O error occurs.
+     */
     @Override
     public void addProduct() throws IOException {
         Scanner scanner = new Scanner(System.in);
 
-        // Saisie des informations
         System.out.print("Nom du produit : ");
         String nom = scanner.nextLine();
 
@@ -48,26 +57,26 @@ public class AddProduct implements Stockable {
             return;
         }
 
-        // Lecture du fichier JSON
         Pharmacy pharmacie = FileHelper.lireFichier(FILE_PATH);
         if (pharmacie == null) return;
 
-        // Création du produit
         Product produit = new Product();
         produit.setId(genererNouvelId(pharmacie));
         produit.setNom(nom);
         produit.setPrix(prix);
         produit.setQuantiteStock(quantite);
-        produit.setDescription(""); // Description non demandée
+        produit.setDescription("");
 
-        // Ajout du produit
         ajouterProduit(pharmacie, produit, categorie, sousCategorie);
 
-        // Écriture dans le fichier
         ecrireFichier(pharmacie);
         System.out.println("Produit ajouté avec succès !");
     }
 
+    /**
+     * Writes the updated pharmacy stock to the JSON file.
+     * @param pharmacie the Pharmacy object containing the updated stock.
+     */
     public static void ecrireFichier(Pharmacy pharmacie) {
         try (Writer writer = new FileWriter(FILE_PATH)) {
             PharmacyWrapper wrapper = new PharmacyWrapper();
@@ -78,6 +87,11 @@ public class AddProduct implements Stockable {
         }
     }
 
+    /**
+     * Generates a new unique ID for the product.
+     * @param pharmacie the Pharmacy object containing the current stock.
+     * @return the new unique product ID.
+     */
     private int genererNouvelId(Pharmacy pharmacie) {
         return pharmacie.getProduits().stream()
                 .flatMap(pc -> pc.getProduits().stream())
@@ -85,6 +99,13 @@ public class AddProduct implements Stockable {
                 .max().orElse(0) + 1;
     }
 
+    /**
+     * Adds the product to the specified category and subcategory in the pharmacy stock.
+     * @param pharmacie the Pharmacy object containing the current stock.
+     * @param produit the Product object to be added.
+     * @param categorie the category of the product.
+     * @param sousCategorie the subcategory of the product.
+     */
     private void ajouterProduit(Pharmacy pharmacie, Product produit, String categorie, String sousCategorie) {
         Optional<ProductCategory> categorieExistante = pharmacie.getProduits().stream()
                 .filter(pc -> pc.getCategorie().equals(categorie) && pc.getSousCategorie().equals(sousCategorie))

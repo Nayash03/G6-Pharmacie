@@ -9,6 +9,9 @@ import java.io.FileReader;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 
+/**
+ * Manages user registration, login, and user-related operations.
+ */
 public class UserManager {
     private static List<User> users = new ArrayList<>();
     private static User currentUser;
@@ -22,6 +25,14 @@ public class UserManager {
         }
     }
 
+    /**
+     * Registers a new user.
+     * 
+     * @param username the username of the new user
+     * @param password the password of the new user
+     * @param role the role of the new user (admin or employee)
+     * @return true if registration is successful, false otherwise
+     */
     public static boolean register(String username, String password, String role) {
         if (getUserByUsername(username) != null) {
             return false;
@@ -39,6 +50,13 @@ public class UserManager {
         return true;
     }
 
+    /**
+     * Logs in a user.
+     * 
+     * @param username the username of the user
+     * @param password the password of the user
+     * @return the logged-in user if credentials are correct, null otherwise
+     */
     public static User login(String username, String password) {
         User user = getUserByUsername(username);
         if (user != null && user.getPassword().equals(hashPassword(password))) {
@@ -48,10 +66,20 @@ public class UserManager {
         return null;
     }
 
+    /**
+     * Checks if the current user can manage other users.
+     * 
+     * @return true if the current user is an admin, false otherwise
+     */
     public static boolean canCurrentUserManageUsers() {
         return currentUser != null && currentUser instanceof Admin;
     }
 
+    /**
+     * Gets a list of all users.
+     * 
+     * @return a list of all users if the current user is an admin, an empty list otherwise
+     */
     public static List<User> getAllUsers() {
         if (canCurrentUserManageUsers()) {
             return new ArrayList<>(users);
@@ -59,6 +87,12 @@ public class UserManager {
         return new ArrayList<>();
     }
 
+    /**
+     * Deletes a user by username.
+     * 
+     * @param username the username of the user to delete
+     * @return true if the user is successfully deleted, false otherwise
+     */
     public static boolean deleteUser(String username) {
         if (!canCurrentUserManageUsers()) {
             return false;
@@ -72,6 +106,12 @@ public class UserManager {
         return false;
     }
 
+    /**
+     * Promotes an employee to an admin.
+     * 
+     * @param username the username of the user to promote
+     * @return true if the user is successfully promoted, false otherwise
+     */
     public static boolean promoteToAdmin(String username) {
         if (!canCurrentUserManageUsers()) {
             return false;
@@ -86,6 +126,12 @@ public class UserManager {
         return false;
     }
 
+    /**
+     * Gets a user by username.
+     * 
+     * @param username the username of the user to find
+     * @return the user if found, null otherwise
+     */
     private static User getUserByUsername(String username) {
         return users.stream()
                 .filter(u -> u.getUsername().equals(username))
@@ -93,6 +139,12 @@ public class UserManager {
                 .orElse(null);
     }
 
+    /**
+     * Hashes a password using SHA-256.
+     * 
+     * @param password the password to hash
+     * @return the hashed password
+     */
     private static String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -109,6 +161,9 @@ public class UserManager {
         }
     }
 
+    /**
+     * Loads users from a file.
+     */
     private static void loadUsersFromFile() {
         try (FileReader reader = new FileReader(USER_FILE)) {
             Gson gson = new Gson();
@@ -130,6 +185,9 @@ public class UserManager {
         }
     }
 
+    /**
+     * Saves users to a file.
+     */
     private static void saveUsersToFile() {
         try (FileWriter writer = new FileWriter(USER_FILE)) {
             Gson gson = new Gson();
@@ -146,6 +204,11 @@ public class UserManager {
         }
     }
 
+    /**
+     * Gets the current logged-in user.
+     * 
+     * @return the current user
+     */
     public static User getCurrentUser() {
         return currentUser;
     }

@@ -1,21 +1,28 @@
 import java.util.*;
 
-
+/**
+ * Main class for the pharmacy management application.
+ */
 public class Main {
+    /**
+     * The main method that runs the application.
+     * 
+     * @param args Command line arguments
+     */
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
         boolean loggedIn = false;
 
         while (!loggedIn) {
-            System.out.println("1 - Login\n2 - Register\n3 - Exit");
+            System.out.println("1 - Connexion\n2 - Inscription\n3 - Quitter");
             String choice = scanner.nextLine();
 
             switch (choice) {
                 case "1":
-                    System.out.println("Username:");
+                    System.out.println("Nom d'utilisateur:");
                     String username = scanner.nextLine();
-                    System.out.println("Password:");
+                    System.out.println("Mot de passe:");
                     String password = scanner.nextLine();
                     
                     User user = UserManager.login(username, password);
@@ -28,11 +35,11 @@ public class Main {
                     break;
 
                 case "2":
-                    System.out.println("Username:");
+                    System.out.println("Nom d'utilisateur:");
                     String newUsername = scanner.nextLine();
-                    System.out.println("Password:");
+                    System.out.println("Mot de passe:");
                     String newPassword = scanner.nextLine();
-                    System.out.println("Role (admin/employee):");
+                    System.out.println("Rôle (admin/employee):");
                     String role = scanner.nextLine();
 
                     if (UserManager.register(newUsername, newPassword, role)) {
@@ -43,7 +50,7 @@ public class Main {
                     break;
 
                 case "3":
-                    System.out.println("Goodbye!");
+                    System.out.println("Au revoir!");
                     System.exit(0);
                     break;
             }

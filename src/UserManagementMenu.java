@@ -1,6 +1,9 @@
 import java.util.Scanner;
 
 public class UserManagementMenu {
+    /**
+     * Initializes the user management menu and handles user input.
+     */
     public static void init() {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
@@ -29,12 +32,20 @@ public class UserManagementMenu {
         }
     }
 
+    /**
+     * Displays the list of users.
+     */
     private static void displayUserList() {
         System.out.println("Liste des utilisateurs:");
         UserManager.getAllUsers().forEach(user -> 
             System.out.println(user.getUsername() + " (" + user.getRole() + ")"));
     }
 
+    /**
+     * Deletes a user based on the username provided by the user.
+     * 
+     * @param scanner the Scanner object to read user input
+     */
     private static void deleteUser(Scanner scanner) {
         System.out.println("Entrez le nom d'utilisateur à supprimer:");
         String username = scanner.nextLine();
@@ -45,6 +56,11 @@ public class UserManagementMenu {
         }
     }
 
+    /**
+     * Promotes a user to admin based on the username provided by the user.
+     * 
+     * @param scanner the Scanner object to read user input
+     */
     private static void promoteUser(Scanner scanner) {
         System.out.println("Entrez le nom d'utilisateur à promouvoir en admin:");
         String username = scanner.nextLine();
