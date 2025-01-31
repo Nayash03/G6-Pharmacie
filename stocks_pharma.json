@@ -130,6 +130,19 @@
             "description": "Améliore la santé cardiovasculaire."
           }
         ]
+      },
+      {
+        "categorie": "test",
+        "sousCategorie": "test",
+        "produits": [
+          {
+            "id": 16,
+            "nom": "test",
+            "prix": 1.5,
+            "quantiteStock": 12,
+            "description": "test"
+          }
+        ]
       }
     ]
   }

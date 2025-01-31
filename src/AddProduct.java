@@ -45,7 +45,16 @@ public class AddProduct implements Stockable {
         String sousCategorie = categories[1];
 
         System.out.print("Prix : ");
-        double prix = scanner.nextDouble();
+        String prixInput = scanner.nextLine();
+        prixInput = prixInput.replace(",",".");
+        double prix;
+        try{
+            prix = Double.parseDouble(prixInput);
+        }
+        catch (NumberFormatException e){
+            System.out.println("Prix invalide.");
+            return;
+        }
         if (prix <= 0) {
             System.out.println("Le prix doit être positif.");
             return;
