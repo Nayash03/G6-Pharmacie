@@ -57,6 +57,9 @@ public class AddProduct implements Stockable {
             return;
         }
 
+        System.out.print("Description : ");
+        String description = scanner.next();
+
         Pharmacy pharmacie = FileHelper.lireFichier(FILE_PATH);
         if (pharmacie == null) return;
 
@@ -65,7 +68,7 @@ public class AddProduct implements Stockable {
         produit.setNom(nom);
         produit.setPrix(prix);
         produit.setQuantiteStock(quantite);
-        produit.setDescription("");
+        produit.setDescription(description);
 
         ajouterProduit(pharmacie, produit, categorie, sousCategorie);
 
