@@ -63,7 +63,7 @@ public class RequestProduct implements Stockable {
                     .orElse(null);
 
             if (productFound == null || productFound.getQuantiteStock() < quantityRequested) {
-                System.out.println("Insufficient stock or product not found: " + nameProduct);
+                System.out.println("Inventaire insuffisant ou produit non trouvé: " + nameProduct);
                 return false;
             }
 
@@ -78,7 +78,7 @@ public class RequestProduct implements Stockable {
         // Update stock file and save the order request
         AddProduct.ecrireFichier(pharmacie);
         writeRequestFile(productValid, typeLivraison);
-        System.out.println("Order successfully registered!");
+        System.out.println("Commande enregistré !");
         return true;
     }
 

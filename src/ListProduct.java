@@ -61,12 +61,12 @@ public class ListProduct implements Listable {
         allProducts.sort(Comparator.comparing(Product::getNom));
 
         // Print products
-        System.out.println("List of available products (sorted by name):");
+        System.out.println("Liste des produits : :");
         for (Product product : allProducts) {
-            System.out.println("Name: " + product.getNom());
-            System.out.println("Price: " + product.getPrix() + " €");
-            System.out.println("Stock quantity: " + product.getQuantiteStock());
-            System.out.println("Category: " + getCategoryName(pharmacie, product));
+            System.out.println("Nom: " + product.getNom());
+            System.out.println("Prix: " + product.getPrix() + " €");
+            System.out.println("Quantité: " + product.getQuantiteStock());
+            System.out.println("Catégorie: " + getCategoryName(pharmacie, product));
             System.out.println("--------------------------------------------");
         }
     }
@@ -84,6 +84,6 @@ public class ListProduct implements Listable {
                 return category.getCategorie() + " - " + category.getSousCategorie();
             }
         }
-        return "Uncategorized";
+        return "Dans aucune catégorie";
     }
 }
