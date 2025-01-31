@@ -3,6 +3,7 @@ import com.google.gson.GsonBuilder;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * The AddProduct class provides functionality to add a new product to the pharmacy stock.
@@ -112,12 +113,25 @@ public class AddProduct implements Stockable {
      * @param sousCategorie the subcategory of the product.
      */
     private void ajouterProduit(Pharmacy pharmacie, Product produit, String categorie, String sousCategorie) {
-        Optional<ProductCategory> categorieExistante = pharmacie.getProduits().stream()
-                .filter(pc -> pc.getCategorie().equals(categorie) && pc.getSousCategorie().equals(sousCategorie))
+        List<ProductCategory> categoriesExistantes = pharmacie.getProduits().stream()
+                .filter(pc -> pc.getCategorie().equals(categorie))
+                .collect(Collectors.toList());
+
+        Optional<ProductCategory> sousCategExistante = categoriesExistantes.stream()
+                .filter(pc -> pc.getSousCategorie().equals(sousCategorie))
                 .findFirst();
 
-        if (categorieExistante.isPresent()) {
-            categorieExistante.get().getProduits().add(produit);
+        if (sousCategExistante.isPresent()) {
+            sousCategExistante.get().getProduits().add(produit);
+        } else if (!categoriesExistantes.isEmpty()) {
+            ProductCategory nouvelleCategorie = new ProductCategory();
+            nouvelleCategorie.setCategorie(categorie);
+            nouvelleCategorie.setSousCategorie(sousCategorie);
+            nouvelleCategorie.setProduits(new ArrayList<>(List.of(produit)));
+
+            ProductCategory lastCat = categoriesExistantes.get(categoriesExistantes.size() - 1);
+            int idx = pharmacie.getProduits().indexOf(lastCat);
+            pharmacie.getProduits().add(idx + 1, nouvelleCategorie);
         } else {
             ProductCategory nouvelleCategorie = new ProductCategory();
             nouvelleCategorie.setCategorie(categorie);
