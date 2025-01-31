@@ -15,7 +15,7 @@ public class Main {
         boolean loggedIn = false;
 
         while (!loggedIn) {
-            System.out.println("1 - Connexion\n2 - Inscription\n3 - Quitter");
+            System.out.println("1 - Connexion\n2 - Inscription\n3 - Liste des stocks\n4 - Quitter");
             String choice = scanner.nextLine();
 
             switch (choice) {
@@ -49,7 +49,11 @@ public class Main {
                     }
                     break;
 
-                case "3":
+                case "3" , "list" , "liste" , "stock" :
+                    ListProduct.init();
+                    break;
+
+                case "4":
                     System.out.println("Au revoir!");
                     System.exit(0);
                     break;
