@@ -57,6 +57,8 @@ public class AddProduct implements Stockable {
             return;
         }
 
+        scanner.nextLine();
+
         System.out.print("Description : ");
         String description = scanner.nextLine();
 
