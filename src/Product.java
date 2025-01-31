@@ -5,6 +5,10 @@ public class Product {
     private int quantiteStock;
     private String description;
 
+    public Product(int getId, String getNom, double getPrix, int getQuantiteStock, String getDescription) {
+        
+    }
+
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     public String getNom() { return nom; }
@@ -15,4 +19,6 @@ public class Product {
     public void setQuantiteStock(int quantiteStock) { this.quantiteStock = quantiteStock; }
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
+
+ 
 }

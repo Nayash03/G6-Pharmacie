@@ -81,6 +81,13 @@
             "prix": 24.99,
             "quantiteStock": 40,
             "description": "Sérum pour réduire les signes de vieillissement."
+          },
+          {
+            "id": 15,
+            "nom": "test",
+            "prix": 12.3,
+            "quantiteStock": 14,
+            "description": ""
           }
         ]
       },
@@ -128,13 +135,6 @@
             "prix": 8.49,
             "quantiteStock": 90,
             "description": "Améliore la santé des os et du système immunitaire."
-          },
-          {
-            "id": 15,
-            "nom": "Oméga-3",
-            "prix": 19.99,
-            "quantiteStock": 60,
-            "description": "Améliore la santé cardiovasculaire."
           }
         ]
       }

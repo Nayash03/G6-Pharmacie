@@ -52,7 +52,7 @@ public class AddProduct implements Stockable {
         if (pharmacie == null) return;
 
         // Création du produit
-        Product produit = new Product();
+        Product produit = new Product(quantite, sousCategorie, quantite, quantite, sousCategorie);
         produit.setId(genererNouvelId(pharmacie));
         produit.setNom(nom);
         produit.setPrix(prix);
