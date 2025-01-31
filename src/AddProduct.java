@@ -22,6 +22,7 @@ public class AddProduct implements Stockable {
 
         // Saisie des informations
         System.out.print("Nom du produit : ");
+        System.out.print("Nom du produit : ");
         String nom = scanner.nextLine();
 
         System.out.print("Catégorie (format: Catégorie:SousCatégorie) : ");
